@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-mrc_db}
+    networks:
+      - mrc_network
+    restart: always
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    environment:
+      - POSTGRES_SERVER=db
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-mrc_db}
+    depends_on:
+      - db
+    networks:
+      - mrc_network
+    restart: always
+    volumes:
+      - ./uploads:/app/uploads
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+      args:
+        VITE_API_URL: /api/v1
+    networks:
+      - mrc_network
+    restart: always
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - mrc_network
+    restart: always
+
+networks:
+  mrc_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

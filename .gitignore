@@ -1,0 +1,81 @@
+# Archivos de desarrollo
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Variables de entorno (NO subir)
+.env
+.env.local
+.env.*.local
+.env.production
+
+# Base de datos local
+*.sqlite
+*.db
+postgres_data/
+
+# Uploads (archivos de usuarios - NO subir)
+uploads/
+!uploads/.gitkeep
+
+# Docker
+.dockerignore
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.bak
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Frontend
+frontend/dist/
+frontend/.vite/
+frontend/node_modules/
+
+# Backend
+backend/__pycache__/
+backend/*.pyc
+backend/.pytest_cache/
+
+# Backups de BD (NO subir)
+*.sql
+*.dump
+backups/
+
+# Certificados SSL (NO subir)
+nginx/ssl/
+*.pem
+*.key
+*.crt
+
+# Cache
+.cache/
+*.cache
