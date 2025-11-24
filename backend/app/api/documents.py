@@ -13,7 +13,13 @@ router = APIRouter()
 
 # Directorio para almacenar archivos
 UPLOAD_DIR = Path("uploads/documents")
-UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+def ensure_upload_dir():
+    """Crear directorio de uploads si no existe"""
+    try:
+        UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        print(f"Warning: Could not create upload directory: {e}")
 
 @router.get("/", response_model=List[DocumentSchema])
 def get_documents(
@@ -53,6 +59,9 @@ async def upload_document(
     current_user: dict = Depends(deps.get_current_user)
 ):
     """Subir un documento para una matrícula"""
+    # Asegurar que el directorio existe antes de subir
+    ensure_upload_dir()
+    
     # Verificar que la matrícula existe
     enrollment = db.query(Enrollment).filter(Enrollment.id == enrollment_id).first()
     if not enrollment:
