@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import api from '../services/api'
+
+const router = useRouter()
 
 // Interfaces
 interface Guardian {
@@ -235,8 +238,8 @@ const cancelEdit = () => {
 const goToEnroll = (studentId: number) => {
   // Guardar el ID del estudiante en localStorage para pre-seleccionarlo
   localStorage.setItem('preSelectedStudentId', studentId.toString())
-  // Navegar a la vista de matrículas
-  window.location.href = '/#/enrollments'
+  // Navegar a la vista de matrículas usando el router de Vue
+  router.push('/enrollments')
 }
 
 const selectNewGuardian = () => {

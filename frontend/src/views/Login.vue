@@ -17,6 +17,8 @@
                   v-model="email"
                   required
                   placeholder="admin@mrc.edu.pe"
+                  autocomplete="email"
+                  name="email"
                 />
               </div>
               <div class="mb-3">
@@ -28,6 +30,8 @@
                   v-model="password"
                   required
                   placeholder="********"
+                  autocomplete="current-password"
+                  name="password"
                 />
               </div>
               <div v-if="error" class="alert alert-danger" role="alert">
@@ -65,7 +69,7 @@ const handleLogin = async () => {
   error.value = '';
   
   try {
-    const formData = new FormData();
+    const formData = new URLSearchParams();
     formData.append('username', email.value);
     formData.append('password', password.value);
 
